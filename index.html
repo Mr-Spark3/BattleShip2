@@ -18,26 +18,28 @@
     <div class="game-title"><h1>BattleShip</h1></div>
 
      <div class="ship-container" id="shipContainer">
-        <h3>Ships</h3>
-        <div class="ship carrier"></div>
-        <div class="ship battleship"></div>
-        <div class="ship cruiser"></div>
-        <div class="ship submarine"></div>
-        <div class="ship destroyer"></div>
+        <h3 class="shiptitle">Ships</h3>
+        <div class="ship carrier" ></div>
+        <div class="ship battleship" ></div>
+        <div class="ship cruiser" ></div>
+        <div class="ship submarine" ></div>
+        <div class="ship destroyer" ></div>
      </div>
 
      <div class="direction-container" id="directionContainer">
         <h3>Directions</h3>
-        <ol></ol>
-        <ol></ol>
-        <ol></ol>
+        <ol>
+            <li class="list">Drag and drop ships on to the Player Board</li>
+            <li class="list">Select a grid cell to attack the computers ship</li>
+            <li class="list">Try and destroy all the computer ships before yours get destroyed</li>
+        </ol>
      </div>
     <div class="container">
         <div id="playerBoard" class="board"></div>
         <div id="computerBoard" class="board"></div>
     </div>
 
-    <div class="play-button" id="playButton"><button>Play/Reset</button></div>
+    <div class="play-button" id="playGameButton"><button>Play/Reset</button></div>
     
 </body>
 </html>
