@@ -22,22 +22,40 @@ renderGameBoard('computerBoard');
 
 //variables
 let selectedShip = null;
-//NEED TO ADD ROTATION//
 let shipDirection = 'vertical';
+lastClick = 0;
 
 const ships = document.querySelectorAll('.ship');
 //event listener for ships//
+//ADD ROTATE FUNCTION//
 ships.forEach(ship => {
-    ship.addEventListener('click', function() {
-        selectedShip = this;
+    ship.addEventListener('click', function(event) {
+        const firstClick = new Date().getTime();
+        if (selectedShip === this && firstClick - lastClick < 300) {
+            event.preventDefault();
+            rotateShip(this);
+        }
+       selectedShip = ship;
+       lastClick = firstClick;
     })
 })
+
+function rotateShip(ship) {
+    if(ship.classList.contains('vertical')) {
+        ship.classList.remove('vertical');
+        ship.classList.add('horizontal');
+    } else {
+        ship.classList.remove('horizontal');
+        ship.classList.add('vertical');
+    }
+    selectedShip = ship;
+}
 //event listener for cells + some placement logic//
 const cells = document.querySelectorAll('.cell');
 cells.forEach(cell => {
     cell.addEventListener('click', function() {
         if (selectedShip) {
-            const [row, col] = cellId.split('-').slice(1).map(Number);
+            const [row, col] = this.id.split('-').slice(1).map(Number);
             const shipSize = parseInt(selectedShip.dataset.size);
             if(canPlaceShip(row, col, shipSize, shipDirection)) {
                 placeShip(row, col, shipSize, shipDirection)
@@ -52,13 +70,13 @@ cells.forEach(cell => {
     })
 })
 // function checks if the ship can be placed at a certain location//
-function canPlaceShip(row, col, size, shipDirection) {
-    if (shipDirection === 'horizontal' && col+size > 10)
+function canPlaceShip(row, col, size, direction) {
+    if (direction === 'vertical' && col+size > 10)
     return false;
-    if (direction === 'vertical' && row + size > 10)
+    if (direction === 'horizontal' && row + size > 10)
     return false;
 for(let i = 0; i < size; i++) {
-    if(shipDirection === 'horizontal') {
+    if(direction === 'vertical') {
         if(playerBoard[row][col + i] !== null) 
         return false;
     } else {
@@ -68,3 +86,14 @@ for(let i = 0; i < size; i++) {
 }
 return true;
 }
+//place ship function for playerBoard
+function placeShip(row, col, size, direction) {
+        for (let i = 0; i < size; i++) {
+            if (direction === 'vertical') {
+              playerBoard[row][col + i] = 'ship';
+            } else {
+              playerBoard[row + i][col] = 'ship';
+            }
+          }
+        }
+ 
