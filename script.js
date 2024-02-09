@@ -2,8 +2,8 @@
 const playerBoard = Array.from({ length: 10 }, () => Array(10).fill(null));
 const computerBoard = Array.from({ length: 10 }, () => Array(10).fill(null));
 
-function renderGameBoard(boardId, board) {
-  const boardElement = document.getElementById(boardId);
+function renderGameBoard(gameBoard, board) {
+  const boardElement = document.getElementById(gameBoard);
   boardElement.innerHTML = ''; 
   for (let row = 0; row < 10; row++) {
     for (let col = 0; col < 10; col++) {
@@ -14,15 +14,18 @@ function renderGameBoard(boardId, board) {
     }
   }
 }
-    renderGameBoard('playerBoard');
-    renderGameBoard('computerBoard');
 
-  const shipTypes = {
-    Carrier: { size: 5 },
-    Battleship: { size: 4 },
-    Cruiser: { size: 3 },
-    Submarine: { size: 3 },
-    Destroyer: { size: 2 }
-  };
-  
- 
+renderGameBoard('playerBoard');
+renderGameBoard('computerBoard');
+
+//variables
+const selectedShip = null;
+const shipDirection = 'horizontal';
+
+const ships = document.querySelectorAll('ship');
+//event listener for ships//
+ships.forEach(ship => {
+    ship.addEventListener('click' function() {
+        selectedShip = this;
+    })
+})
