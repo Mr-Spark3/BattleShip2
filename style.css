@@ -132,7 +132,7 @@
     height: 90px;
     grid-row: 2;
     background-color: rgba(165,155,155, .6);
-    border-radius: 70%;
+    border-radius: 50%;
     position: absolute;
     grid-column: 5;
     

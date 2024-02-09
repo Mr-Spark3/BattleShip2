@@ -32,7 +32,7 @@ ships.forEach(ship => {
         selectedShip = this;
     })
 })
-
+//event listener for cells + some placement logic//
 const cells = document.querySelectorAll('.cell');
 cells.forEach(cell => {
     cell.addEventListener('click', function() {
@@ -51,3 +51,20 @@ cells.forEach(cell => {
         }
     })
 })
+// function checks if the ship can be placed at a certain location//
+function canPlaceShip(row, col, size, shipDirection) {
+    if (shipDirection === 'horizontal' && col+size > 10)
+    return false;
+    if (direction === 'vertical' && row + size > 10)
+    return false;
+for(let i = 0; i < size; i++) {
+    if(shipDirection === 'horizontal') {
+        if(playerBoard[row][col + i] !== null) 
+        return false;
+    } else {
+        if(playerBoard[row + i][col] !== null)
+        return false; 
+    }
+}
+return true;
+}
