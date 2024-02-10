@@ -138,10 +138,10 @@ function canPlaceComputerShips(row, col, size, direction) {
     return false;
 for(let i = 0; i < size; i++) {
     if(direction === 'vertical') {
-        if (computerBoard[row + i][col] === 1) 
+        if (row + i >= 10 || computerBoard[row + i][col] === 1)
         return false;
     } else {
-        if(computerBoard[row][col + i] === 1)
+        if (col + i >= 10 || computerBoard[row][col + i] === 1)
         return false; 
     }
 }
@@ -154,4 +154,57 @@ document.addEventListener('click', function() {
     }
 });
 
+// display event message//
+
+function displayMessage(message) {
+    const messageElement = document.getElementById('message');
+    messageElement.textContent = message;
+    messageElement.style.display = 'block';
+    messageElement.classList.add('active');
+    setTimeout(() => {
+        messageElement.style.display = 'none';
+    }, 2000);
+}
+
+
+// hit and miss logic//
+
+let hitCounter = 0;
+const totalHits = 17;
+
+
+
+const computerCells = document.querySelectorAll('#computerBoard .cell');
+computerCells.forEach( cell => {
+    cell.addEventListener('click', function() {
+        const[row, col] = this.id.split('-').slice(1).map(Number);
+        if (computerBoard[row][col] === 1) {
+            this.classList.add('hit');
+            displayMessage('Hit!');
+        } else {
+            this.classList.add('miss');
+            displayMessage('Miss!');
+        }
+        if (hitCounter === totalHits) {
+            displayMessage('BETTER LUCK NEXT TIME, ALL SHIPS SUNK!');
+        }
+    })
+})
+
+//hit and miss logic for player board cells//
+const playerCells = document.querySelectorAll('#playerBoard .cell');
+playerCells.forEach(cell => {
+    cell.addEventListener('click', function() {
+        const [row, col] = this.id.split('-').slice(1).map(Number);
+        if (playerBoard[row][col] === 1) {
+            this.classList.add('hit');
+            displayMessage('You got hit!');
+        } else {
+            this.classList.add('miss');
+            displayMessage('You dodged the shot!');
+        }
+    })
+})
+
+ 
 

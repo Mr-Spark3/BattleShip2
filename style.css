@@ -188,3 +188,28 @@ button {
 .horizontal {
     transform: rotate(90deg);
 }
+
+/*hit and miss styling*/
+
+.hit {
+    background-color: red;
+    border-radius: 50%;
+}
+
+.miss {
+    border-radius: 50%;
+}
+
+#message {
+   display: flex;
+   font-size: 25px;
+   color: white;
+   grid-column: 2;
+   grid-row: 2;
+   text-align: center;
+   
+}
+#message.active {
+    font-size: 35px;
+    transition: font-size 1s ease;
+}
