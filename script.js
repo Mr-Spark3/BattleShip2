@@ -17,13 +17,15 @@ function renderGameBoard(gameBoard, board) {
   }
 }
 
-renderGameBoard('playerBoard');
-renderGameBoard('computerBoard');
+renderGameBoard('playerBoard', playerBoard);
+renderGameBoard('computerBoard', computerBoard);
+
 
 //variables
 let selectedShip = null;
 let shipDirection = 'vertical';
-lastClick = 0;
+let lastClick = 0;
+let computerShipsPlaced = false;
 
 const ships = document.querySelectorAll('.ship');
 //event listener for ships//
@@ -35,7 +37,7 @@ ships.forEach(ship => {
             event.preventDefault();
             rotateShip(this);
         }
-       selectedShip = ship;
+       selectedShip = this;
        lastClick = firstClick;
     })
 })
@@ -48,7 +50,7 @@ function rotateShip(ship) {
         ship.classList.remove('horizontal');
         ship.classList.add('vertical');
     }
-    selectedShip = ship;
+    selectedShip = null;
 }
 //event listener for cells + some placement logic//
 const cells = document.querySelectorAll('.cell');
@@ -57,8 +59,8 @@ cells.forEach(cell => {
         if (selectedShip) {
             const [row, col] = this.id.split('-').slice(1).map(Number);
             const shipSize = parseInt(selectedShip.dataset.size);
-            if(canPlaceShip(row, col, shipSize, shipDirection)) {
-                placeShip(row, col, shipSize, shipDirection)
+            if(canPlacePlayerShip(row, col, shipSize, shipDirection)) {
+                playerShip(row, col, shipSize, shipDirection)
                 this.appendChild(selectedShip);
 
                 selectedShip = null;
@@ -70,14 +72,14 @@ cells.forEach(cell => {
     })
 })
 // function checks if the ship can be placed at a certain location//
-function canPlaceShip(row, col, size, direction) {
-    if (direction === 'vertical' && col+size > 10)
+function canPlacePlayerShip(row, col, size, direction) {
+    if (direction === 'vertical' && (col+size) > 10)
     return false;
-    if (direction === 'horizontal' && row + size > 10)
+    if (direction === 'horizontal' && (row + size) > 10)
     return false;
 for(let i = 0; i < size; i++) {
     if(direction === 'vertical') {
-        if(playerBoard[row][col + i] !== null) 
+        if (playerBoard[row][col + i] !== null) 
         return false;
     } else {
         if(playerBoard[row + i][col] !== null)
@@ -86,14 +88,70 @@ for(let i = 0; i < size; i++) {
 }
 return true;
 }
+
 //place ship function for playerBoard
-function placeShip(row, col, size, direction) {
+
+function playerShip(row, col, size, direction) {
         for (let i = 0; i < size; i++) {
             if (direction === 'vertical') {
-              playerBoard[row][col + i] = 'ship';
+              playerBoard[row][col + i] = 1;
             } else {
-              playerBoard[row + i][col] = 'ship';
+              playerBoard[row + i][col] = 1;
             }
           }
         }
- 
+
+//function to place computer ships on board//
+
+function placeComputerShips() {
+    const shipSizes = [5, 4, 3, 3, 2];
+    for (const size of shipSizes) {
+        while (true) {
+            const row = Math.floor(Math.random() * 10);
+            const col = Math.floor(Math.random() * 10);
+            const direction = Math.random() < 0.5 ? 'vertical' : 'horizontal';
+        if (canPlaceComputerShips(row, col, size, direction)) {
+            placeComputerShip(row, col, size, direction);
+            break;
+                
+            }
+        }
+    }
+    computerShipsPlaced = true;
+    console.log('ships placed');
+}
+
+function placeComputerShip(row, col, size, direction) {
+    for (let i = 0; i < size; i++) {
+        if (direction === 'vertical') {
+            computerBoard[row + i][col] = 1;
+            } else {
+                computerBoard[row][col + i] = 1;
+                }
+             }
+        }
+//same function from player ship//
+function canPlaceComputerShips(row, col, size, direction) {
+    if (direction === 'vertical' && (col + size) > 10)
+    return false;
+    if (direction === 'horizontal' && (row + size) > 10)
+    return false;
+for(let i = 0; i < size; i++) {
+    if(direction === 'vertical') {
+        if (computerBoard[row + i][col] === 1) 
+        return false;
+    } else {
+        if(computerBoard[row][col + i] === 1)
+        return false; 
+    }
+}
+return true;
+}
+//Once board is clicked computer ships are placed//
+document.addEventListener('click', function() {
+    if (!computerShipsPlaced) {
+        placeComputerShips();
+    }
+});
+
+

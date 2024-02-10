@@ -88,7 +88,7 @@
 /*ships styling*/
 
 .carrier {
-    height: 200px;
+    height: 225px;
     width: 40px;
     background-color: rgba(165,155,155, .6);
     grid-row: 2;
@@ -97,7 +97,7 @@
     
 }
 .battleship {
-    height: 160px;
+    height: 175px;
     width: 40px;
     background-color: rgba(165,155,155, .6);
     border-radius: 60%;
@@ -108,7 +108,7 @@
     
 }
 .cruiser {
-    height: 120px;
+    height: 130px;
     width: 40px;
     grid-row: 2;
     background-color: rgba(165,155,155, .6);
@@ -118,7 +118,7 @@
 
 }
 .submarine {
-    height: 120px;
+    height: 130px;
     width: 40px;
     grid-row: 2;
     border-radius: 30%;
@@ -128,7 +128,7 @@
 }
 .destroyer {
     width: 40px;
-    height: 80px;
+    height: 85px;
     grid-row: 2;
     background-color: rgba(165,155,155, .6);
     border-radius: 50%;
@@ -137,8 +137,6 @@
     
 }
 .ship {
-    display: flex;
-    justify-content: space-between;
     margin: auto;
     
 
