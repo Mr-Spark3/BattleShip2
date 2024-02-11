@@ -26,10 +26,14 @@ let selectedShip = null;
 let shipDirection = 'vertical';
 let lastClick = 0;
 let computerShipsPlaced = false;
+const shipsPlaced = new Set();
 
 const ships = document.querySelectorAll('.ship');
 //event listener for ships//
 //ADD ROTATE FUNCTION//
+
+//event listener for cells + some placement logic//
+
 ships.forEach(ship => {
     ship.addEventListener('click', function(event) {
         const firstClick = new Date().getTime();
@@ -39,6 +43,33 @@ ships.forEach(ship => {
         }
        selectedShip = this;
        lastClick = firstClick;
+       shipBeingPlaced = this;
+    })
+})
+
+const cells = document.querySelectorAll('.cell');
+
+cells.forEach(cell => {
+    cell.addEventListener('click', function() {
+        if (selectedShip) {
+            const [row, col] = this.id.split('-').slice(1).map(Number);
+            const shipSize = parseInt(selectedShip.dataset.size);
+            if(canPlacePlayerShip(row, col, shipSize, shipDirection)) {
+                playerShip(row, col, shipSize, shipDirection)
+                this.appendChild(shipBeingPlaced);
+
+                shipBeingPlaced = null;
+                selectedShip = null;
+                shipsPlaced.add(this);
+                if(shipsPlaced.size === ships.length) {
+                    placeComputerShips();
+                    computerClick();
+                }
+            } else {
+                alert('Invalid cordinates!, please choose another location');
+            }
+
+        }
     })
 })
 
@@ -52,25 +83,7 @@ function rotateShip(ship) {
     }
     selectedShip = null;
 }
-//event listener for cells + some placement logic//
-const cells = document.querySelectorAll('.cell');
-cells.forEach(cell => {
-    cell.addEventListener('click', function() {
-        if (selectedShip) {
-            const [row, col] = this.id.split('-').slice(1).map(Number);
-            const shipSize = parseInt(selectedShip.dataset.size);
-            if(canPlacePlayerShip(row, col, shipSize, shipDirection)) {
-                playerShip(row, col, shipSize, shipDirection)
-                this.appendChild(selectedShip);
 
-                selectedShip = null;
-            } else {
-                alert('Invalid cordinates!, please choose another location')
-            }
-
-        }
-    })
-})
 // function checks if the ship can be placed at a certain location//
 function canPlacePlayerShip(row, col, size, direction) {
     if (direction === 'vertical' && (col+size) > 10)
@@ -101,6 +114,8 @@ function playerShip(row, col, size, direction) {
           }
         }
 
+        
+
 //function to place computer ships on board//
 
 function placeComputerShips() {
@@ -118,7 +133,7 @@ function placeComputerShips() {
         }
     }
     computerShipsPlaced = true;
-    console.log('ships placed');
+    console.log('ships placed by computer');
 }
 
 function placeComputerShip(row, col, size, direction) {
@@ -149,11 +164,12 @@ return true;
 }
 //Once board is clicked computer ships are placed//
 document.addEventListener('click', function() {
-    if (!computerShipsPlaced) {
+    if (!computerShipsPlaced && shipsPlaced.size === ships.length) {
+        console.log('Placing computer ships condition met');
         placeComputerShips();
+        computerClick();
     }
 });
-
 // display event message//
 
 function displayMessage(message) {
@@ -163,7 +179,7 @@ function displayMessage(message) {
     messageElement.classList.add('active');
     setTimeout(() => {
         messageElement.style.display = 'none';
-    }, 2000);
+    }, 1000);
 }
 
 
@@ -181,6 +197,7 @@ computerCells.forEach( cell => {
         if (computerBoard[row][col] === 1) {
             this.classList.add('hit');
             displayMessage('Hit!');
+            playerBoard[row][col] = 'X';
         } else {
             this.classList.add('miss');
             displayMessage('Miss!');
@@ -188,10 +205,18 @@ computerCells.forEach( cell => {
         if (hitCounter === totalHits) {
             displayMessage('BETTER LUCK NEXT TIME, ALL SHIPS SUNK!');
         }
+        computerClick();
     })
 })
 
 //hit and miss logic for player board cells//
+
+function computerClick() {
+    const playerCells = document.querySelectorAll('#playerBoard .cell');
+    const randomIndex = Math.floor(Math.random() * playerCells.length);
+    playerCells[randomIndex].click();
+}
+
 const playerCells = document.querySelectorAll('#playerBoard .cell');
 playerCells.forEach(cell => {
     cell.addEventListener('click', function() {
@@ -199,10 +224,16 @@ playerCells.forEach(cell => {
         if (playerBoard[row][col] === 1) {
             this.classList.add('hit');
             displayMessage('You got hit!');
+            playerBoard[row][col] = 'X';
+            hitCounter++;
+            if (hitCounter === totalHits) {
+                displayMessage('CONGRATULATIONS! ALL SHIPS HAVE BEEN SUNK!');
+            }
         } else {
             this.classList.add('miss');
             displayMessage('You dodged the shot!');
         }
+    
     })
 })
 
