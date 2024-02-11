@@ -210,11 +210,22 @@ computerCells.forEach( cell => {
 })
 
 //hit and miss logic for player board cells//
-
+let selectedGridPoints = new Set();
 function computerClick() {
     const playerCells = document.querySelectorAll('#playerBoard .cell');
-    const randomIndex = Math.floor(Math.random() * playerCells.length);
-    playerCells[randomIndex].click();
+    let randomIndex = Math.floor(Math.random() * playerCells.length);
+    let cell = playerCells[randomIndex];
+    let [row, col] = cell.id.split('-').slice(1).map(Number);
+
+    while (selectedGridPoints.has(`${row}-${col}`)) {
+        randomIndex = Math.floor(Math.random() * playerCells.length);
+        cell = playerCells[randomIndex];
+        const [newRow, newCol] = cell.id.split('-').slice(1).map(Number);
+        row = newRow;
+        col = newCol;
+    }
+    selectedGridPoints.add(`${row}-${col}`);
+    cell.click();
 }
 
 const playerCells = document.querySelectorAll('#playerBoard .cell');
