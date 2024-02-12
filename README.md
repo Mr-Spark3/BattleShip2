@@ -8,8 +8,10 @@ the computer will randomly place its ships on its board. The game proceeds with 
 The first player to sink all of the opponent's ships wins the game.
 
 How to Play
+Game Link:
+https://mr-spark3.github.io/BattleShip2/
 
-1.Open the index.html file in your web browser.
+1.Copy and paste game link in your browser
 
 2.Click on the cells of your board to place your ships.
 
