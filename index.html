@@ -16,15 +16,17 @@
 <body>
 
     <div class="game-title"><h1>BattleShip</h1></div>
+    <div class="pboard title"><h2>PlayerBoard</h2></div>
+    <div class="cboard title"><h2>ComputerBoard</h2></div>
     <div id="message"></div>
 
      <div class="ship-container" id="shipContainer">
         <h3 class="shiptitle">Ships</h3>
-        <div class="ship carrier vertical" ></div>
-        <div class="ship battleship vertical" ></div>
-        <div class="ship cruiser vertical"></div>
-        <div class="ship submarine vertical" ></div>
-        <div class="ship destroyer vertical" ></div>
+        <div class="ship carrier vertical" data-size ='5'></div>
+        <div class="ship battleship vertical" data-size ='4' ></div>
+        <div class="ship cruiser vertical" data-size ='3'></div>
+        <div class="ship submarine vertical" data-size ='3' ></div>
+        <div class="ship destroyer vertical"  data-size ='2'></div>
      </div>
 
      <div class="direction-container" id="directionContainer">
@@ -40,7 +42,7 @@
         <div id="computerBoard" class="board"></div>
     </div>
 
-    <div class="play-button" id="playGameButton"><button>Play/Reset</button></div>
+    <div class="play-button" id="playGame"><button>Play/Reset</button></div>
     
 </body>
 </html>

@@ -22,6 +22,24 @@
     color: #fff;
   }
 /*game board styling*/
+
+.pboard {
+    font-family: 'Roboto Condensed', sans-serif;
+    color: dodgerblue;
+    grid-column: 2;
+    
+}
+.cboard {
+    font-family: 'Roboto Condensed', sans-serif;
+    color: orange;
+    grid-column: 2;
+    
+
+}
+.title{
+    justify-content: space-between;
+
+}
 .container {
     display: flex;
     justify-content: center;
@@ -94,6 +112,7 @@
     grid-row: 2;
     position: absolute; 
     grid-column: 1;
+    size: 5;
     
 }
 .battleship {
@@ -104,11 +123,12 @@
     grid-row: 2;
     position: absolute;
     grid-column: 2;
+    size: 4;
     
     
 }
 .cruiser {
-    height: 130px;
+    height: 135px;
     width: 40px;
     grid-row: 2;
     background-color: rgba(165,155,155, .7);
@@ -118,7 +138,7 @@
 
 }
 .submarine {
-    height: 130px;
+    height: 135px;
     width: 40px;
     grid-row: 2;
     border-radius: 30%;
@@ -128,7 +148,7 @@
 }
 .destroyer {
     width: 40px;
-    height: 85px;
+    height: 80px;
     grid-row: 2;
     background-color: rgba(165,155,155, .7);
     border-radius: 50%;
@@ -185,9 +205,8 @@ button {
     color: #fff;
     border: 2px solid #fff;
 }
-.horizontal {
-    transform: rotate(90deg);
-}
+
+
 
 /*hit and miss styling*/
 
@@ -213,4 +232,7 @@ button {
 #message.active {
     font-size: 35px;
     transition: font-size 1s ease;
+}
+.horizontal {
+    transform: rotate(90deg);
 }
