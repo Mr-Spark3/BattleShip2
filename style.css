@@ -90,7 +90,7 @@
 .carrier {
     height: 225px;
     width: 40px;
-    background-color: rgba(165,155,155, .6);
+    background-color: rgba(165,155,155, .7);
     grid-row: 2;
     position: absolute; 
     grid-column: 1;
@@ -99,7 +99,7 @@
 .battleship {
     height: 175px;
     width: 40px;
-    background-color: rgba(165,155,155, .6);
+    background-color: rgba(165,155,155, .7);
     border-radius: 60%;
     grid-row: 2;
     position: absolute;
@@ -111,7 +111,7 @@
     height: 130px;
     width: 40px;
     grid-row: 2;
-    background-color: rgba(165,155,155, .6);
+    background-color: rgba(165,155,155, .7);
     border-radius: 50%;
     position: absolute;
     grid-column: 3;
@@ -122,7 +122,7 @@
     width: 40px;
     grid-row: 2;
     border-radius: 30%;
-    background-color: rgba(165,155,155, .6);
+    background-color: rgba(165,155,155, .7);
     position: absolute;
     grid-column: 4;
 }
@@ -130,7 +130,7 @@
     width: 40px;
     height: 85px;
     grid-row: 2;
-    background-color: rgba(165,155,155, .6);
+    background-color: rgba(165,155,155, .7);
     border-radius: 50%;
     position: absolute;
     grid-column: 5;
@@ -194,6 +194,7 @@ button {
 .hit {
     background-color: red;
     border-radius: 50%;
+    
 }
 
 .miss {

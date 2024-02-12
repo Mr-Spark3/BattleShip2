@@ -27,6 +27,7 @@ let shipDirection = 'vertical';
 let lastClick = 0;
 let computerShipsPlaced = false;
 const shipsPlaced = new Set();
+let shipBeingPlaced = null;
 
 const ships = document.querySelectorAll('.ship');
 //event listener for ships//
@@ -48,6 +49,7 @@ ships.forEach(ship => {
 })
 
 const cells = document.querySelectorAll('.cell');
+const shipSizes = [5, 4, 3, 3, 2];
 
 cells.forEach(cell => {
     cell.addEventListener('click', function() {
@@ -66,7 +68,7 @@ cells.forEach(cell => {
                     computerClick();
                 }
             } else {
-                alert('Invalid cordinates!, please choose another location');
+                displayMessage('Invalid cordinates!, please choose another location');
             }
 
         }
@@ -86,7 +88,7 @@ function rotateShip(ship) {
 
 // function checks if the ship can be placed at a certain location//
 function canPlacePlayerShip(row, col, size, direction) {
-    if (direction === 'vertical' && (col+size) > 10)
+    if (direction === 'vertical' && (col + size) > 10)
     return false;
     if (direction === 'horizontal' && (row + size) > 10)
     return false;
@@ -104,14 +106,23 @@ return true;
 
 //place ship function for playerBoard
 
+const playerShipsCoordinates = [];
+
 function playerShip(row, col, size, direction) {
+    const shipCoordinates = [];
         for (let i = 0; i < size; i++) {
             if (direction === 'vertical') {
               playerBoard[row][col + i] = 1;
+              shipCoordinates.push([row, col + i]);
+              console.log(`Ship placed at row: ${row}, col: ${col + i}`);
             } else {
               playerBoard[row + i][col] = 1;
+              shipCoordinates.push([row + i, col]);
+              console.log(`Ship placed at row: ${row + i}, col: ${col}`);
             }
+            
           }
+          playerShipsCoordinates.push(shipCoordinates);
         }
 
         
@@ -119,6 +130,8 @@ function playerShip(row, col, size, direction) {
 //function to place computer ships on board//
 
 function placeComputerShips() {
+    playerShipsCoordinates.length = 0;
+
     const shipSizes = [5, 4, 3, 3, 2];
     for (const size of shipSizes) {
         while (true) {
@@ -132,9 +145,20 @@ function placeComputerShips() {
             }
         }
     }
+    
     computerShipsPlaced = true;
     console.log('ships placed by computer');
 }
+
+//Once board is clicked computer ships are placed//
+document.addEventListener('click', function() {
+    if (!computerShipsPlaced && shipsPlaced.size === ships.length) {
+        console.log('Placing computer ships condition met');
+        placeComputerShips();
+        computerClick();
+        console.log('Player ships coordinates:', playerShipsCoordinates);
+    }
+});
 
 function placeComputerShip(row, col, size, direction) {
     for (let i = 0; i < size; i++) {
@@ -147,30 +171,23 @@ function placeComputerShip(row, col, size, direction) {
         }
 //same function from player ship//
 function canPlaceComputerShips(row, col, size, direction) {
-    if (direction === 'vertical' && (col + size) > 10)
+    if (direction === 'vertical' && (row + size) > 10)
     return false;
-    if (direction === 'horizontal' && (row + size) > 10)
+    if (direction === 'horizontal' && (col + size) > 10)
     return false;
-for(let i = 0; i < size; i++) {
-    if(direction === 'vertical') {
+for (let i = 0; i < size; i++) {
+    if (direction === 'vertical') {
         if (row + i >= 10 || computerBoard[row + i][col] === 1)
-        return false;
+            return false;
     } else {
         if (col + i >= 10 || computerBoard[row][col + i] === 1)
-        return false; 
+            return false; 
     }
 }
 return true;
 }
-//Once board is clicked computer ships are placed//
-document.addEventListener('click', function() {
-    if (!computerShipsPlaced && shipsPlaced.size === ships.length) {
-        console.log('Placing computer ships condition met');
-        placeComputerShips();
-        computerClick();
-    }
-});
-// display event message//
+
+// displaymessage//
 
 function displayMessage(message) {
     const messageElement = document.getElementById('message');
@@ -191,19 +208,22 @@ const totalHits = 17;
 
 
 const computerCells = document.querySelectorAll('#computerBoard .cell');
-computerCells.forEach( cell => {
+
+
+computerCells.forEach(cell => {
     cell.addEventListener('click', function() {
         const[row, col] = this.id.split('-').slice(1).map(Number);
         if (computerBoard[row][col] === 1) {
             this.classList.add('hit');
             displayMessage('Hit!');
-            playerBoard[row][col] = 'X';
+            computerBoard[row][col] = 'X';
+            hitCounter++;
+        if (hitCounter === totalHits) {
+            displayMessage('BETTER LUCK NEXT TIME, ALL SHIPS SUNK!');
+        }
         } else {
             this.classList.add('miss');
             displayMessage('Miss!');
-        }
-        if (hitCounter === totalHits) {
-            displayMessage('BETTER LUCK NEXT TIME, ALL SHIPS SUNK!');
         }
         computerClick();
     })
@@ -212,41 +232,30 @@ computerCells.forEach( cell => {
 //hit and miss logic for player board cells//
 let selectedGridPoints = new Set();
 function computerClick() {
-    const playerCells = document.querySelectorAll('#playerBoard .cell');
-    let randomIndex = Math.floor(Math.random() * playerCells.length);
-    let cell = playerCells[randomIndex];
-    let [row, col] = cell.id.split('-').slice(1).map(Number);
-
-    while (selectedGridPoints.has(`${row}-${col}`)) {
-        randomIndex = Math.floor(Math.random() * playerCells.length);
-        cell = playerCells[randomIndex];
-        const [newRow, newCol] = cell.id.split('-').slice(1).map(Number);
-        row = newRow;
-        col = newCol;
-    }
-    selectedGridPoints.add(`${row}-${col}`);
-    cell.click();
-}
-
-const playerCells = document.querySelectorAll('#playerBoard .cell');
-playerCells.forEach(cell => {
-    cell.addEventListener('click', function() {
-        const [row, col] = this.id.split('-').slice(1).map(Number);
+    const [row, col] = generateRandomCoordinates(); 
+    const cellId = `cell-${row}-${col}`;
+    const cell = document.getElementById(cellId);
+    if (!cell.classList.contains('hit') && !cell.classList.contains('miss')) {
         if (playerBoard[row][col] === 1) {
-            this.classList.add('hit');
-            displayMessage('You got hit!');
+            cell.classList.add('hit');
+            displayMessage('Computer hit your ship!');
             playerBoard[row][col] = 'X';
             hitCounter++;
             if (hitCounter === totalHits) {
                 displayMessage('CONGRATULATIONS! ALL SHIPS HAVE BEEN SUNK!');
             }
         } else {
-            this.classList.add('miss');
-            displayMessage('You dodged the shot!');
+            cell.classList.add('miss');
+            displayMessage('Computer missed!');
         }
-    
-    })
-})
-
+    } else {
+        computerClick();
+    }
+}
+function generateRandomCoordinates() {
+    const row = Math.floor(Math.random() * 10);
+    const col = Math.floor(Math.random() * 10);
+    return [row, col];
+}
  
 
