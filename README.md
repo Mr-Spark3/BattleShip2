@@ -31,6 +31,9 @@ Click the "Reset" button.
 All ships will be removed from the boards, and players can start placing their ships again.
 
 
-Credits
+Next Steps: 
+
+- Once the rest of the game logic is functioning properly I would like to add in some animations when a player or computer attacks a grid - point.
+- I would also like to add a hit counter for both the player and computer boards.
 
 This Battleship game is created by Jordan Hale
