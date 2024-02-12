@@ -1,6 +1,6 @@
 
-Battleship Game
-This is a simple implementation of the Battleship game using HTML, CSS, and JavaScript.
+Battleship2
+
 
 Overview
 The game consists of two main parts: the player's board and the computer's board. Players can place their ships on their board by clicking on the desired location. Once all ships are placed, 
