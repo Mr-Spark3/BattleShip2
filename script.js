@@ -6,7 +6,6 @@ const shipData = [
     { class: 'Submarine', size: 3 }
 ];
 
-// Function to render game boards
 const playerBoard = Array.from({ length: 10 }, () => Array(10).fill(null));
 const computerBoard = Array.from({ length: 10 }, () => Array(10).fill(null));
 
@@ -106,7 +105,7 @@ function rotateShip(ship) {
     }
     selectedShip = null;
 }
-// Function to check if the ship can be placed at a certain location
+
 function canPlacePlayerShip(row, col, size, direction) {
     if (direction === 'vertical' && col + size > 10) return false;
     if (direction === 'horizontal' && row + size > 10) return false;
@@ -120,10 +119,10 @@ function canPlacePlayerShip(row, col, size, direction) {
     return true;
 }
 
-// Place ship function for playerBoard
+
 const playerShipsCoordinates = [];
 
-// Place ship function for playerBoard
+// Place ship function for playerBoard //
 function playerShip(row, col, size, direction) {
     const ship = document.createElement('div');
     ship.className = 'ship';
@@ -143,18 +142,13 @@ function playerShip(row, col, size, direction) {
         }
     }
 
-    ship.style.position = 'absolute';
-    ship.style.width = direction === 'vertical' ? '20px' : `${size * 20}px`;
-    ship.style.height = direction === 'vertical' ? `${size * 20}px` : '20px';
-    ship.style.left = `${col * 20}px`;
-    ship.style.top = `${row * 20}px`;
 
     document.getElementById('playerBoard').appendChild(ship);
 
     playerShipsCoordinates.push(shipCoordinates);
 }
 
-// Function to check if a ship can be placed on the computer's board
+// Function to check if a ship can be placed on the computer's board //
 function canPlaceComputerShips(row, col, size, direction) {
     console.log(`Checking if ship of size ${size} can be placed at row ${row}, col ${col}, direction ${direction}`);
     if (direction === 'vertical' && row + size > 10) {
@@ -162,7 +156,6 @@ function canPlaceComputerShips(row, col, size, direction) {
         return false;
     }
     if (direction === 'horizontal' && col + size > 10) {
-        console.log('Ship exceeds board width');
         return false;
     }
     for (let i = 0; i < size; i++) {
@@ -181,9 +174,8 @@ function canPlaceComputerShips(row, col, size, direction) {
     return true;
 }
 
-// Function to place computer ships on the board
+// Function to place computer ships on the board //
 function placeComputerShips() {
-    console.log('Placing computer ships...');
     playerShipsCoordinates.length = 0;
 
     for (const size of shipSizes) {
@@ -204,7 +196,7 @@ function placeComputerShips() {
     console.log('Ships placed by the computer');
 }
 
-// Once board is clicked, computer ships are placed
+// Once board is clicked, computer ships are placed //
 document.addEventListener('click', function() {
     if (!computerShipsPlaced && shipsPlaced.size === ships.length) {
         console.log('Placing computer ships condition met');
@@ -214,7 +206,7 @@ document.addEventListener('click', function() {
     }
 });
 
-// Function to place a computer ship
+// Function to place a computer ship //
 function placeComputerShip(row, col, size, direction) {
     for (let i = 0; i < size; i++) {
         if (direction === 'vertical') {
@@ -225,7 +217,7 @@ function placeComputerShip(row, col, size, direction) {
     }
 }
 
-// Function to display messages
+// Function to display messages //
 function displayMessage(message) {
     const messageElement = document.getElementById('message');
     messageElement.textContent = message;
@@ -365,7 +357,7 @@ function resetGame() {
     }
 
         // Event listener for resetting the game
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('click', function() {
     const resetButton = document.getElementById('playGame'); 
     playGame.addEventListener('click', resetGame);
 });
@@ -379,7 +371,6 @@ document.addEventListener('DOMContentLoaded', function() {
     shipBeingPlaced = null;
     hitCounter = 0;
 
-    // Clear ship placements on the DOM
     const playerCells = document.querySelectorAll('#playerBoard .cell');
     playerCells.forEach(cell => {
         cell.innerHTML = '';
@@ -390,8 +381,7 @@ document.addEventListener('DOMContentLoaded', function() {
         cell.classList.remove('hit', 'miss');
     });
 
-    // Remove ships from the DOM and re-append them to the container
-    const playerShipsContainer = document.getElementById('playerBoard');
+    const playerShipsContainer = document.getElementById('shipContainer');
     const playerShips = document.querySelectorAll('.ship');
     playerShips.forEach(ship => {
         playerShipsContainer.appendChild(ship);
