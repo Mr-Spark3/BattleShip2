@@ -11,7 +11,8 @@ How to Play
 Game Link:
 https://mr-spark3.github.io/BattleShip2/
 
-!["Screenshot 2024-02-12 at 1 00 11 PM"]("https://github.com/Mr-Spark3/BattleShip2/assets/152821427/bc5e0af6-a696-44d7-8cb4-e1dce887c237")
+![image](https://github.com/Mr-Spark3/BattleShip2/assets/152821427/414b4755-c09c-46bb-b10c-6e35df96abc6)
+
 
 
 1.Copy and paste game link in your browser
