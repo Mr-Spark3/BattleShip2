@@ -11,6 +11,10 @@ How to Play
 Game Link:
 https://mr-spark3.github.io/BattleShip2/
 
+![image](https://github.com/Mr-Spark3/BattleShip2/assets/152821427/414b4755-c09c-46bb-b10c-6e35df96abc6)
+
+
+
 1.Copy and paste game link in your browser
 
 2.Click on the cells of your board to place your ships.
@@ -38,4 +42,4 @@ Next Steps:
 - Once the rest of the game logic is functioning properly I would like to add in some animations when a player or computer attacks a grid - point.
 - I would also like to add a hit counter for both the player and computer boards.
 
-This Battleship game is created by Jordan Hale
+
