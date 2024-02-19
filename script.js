@@ -145,7 +145,7 @@ function playerShip(row, col, size, direction) {
 
     document.getElementById('playerBoard').appendChild(ship);
 
-    playerShipsCoordinates.push(shipCoordinates);
+    playerShipsCoordinates.push(shipCoordinates.flat());
 }
 
 // Function to check if a ship can be placed on the computer's board //
@@ -233,6 +233,35 @@ function displayMessage(message) {
 let hitCounter = 0;
 const totalHits = 17;
 
+function showExplosion(row, col, boardId) {
+    const boardElement = document.getElementById(boardId);
+    if (!boardElement) {
+        console.error(`Board with id ${boardId} not found.`);
+        return;
+    }
+
+    const cellId = `cell-${row}-${col}`;
+    const cell = document.getElementById(cellId);
+
+    if (!cell) {
+        console.error(`Cell with id ${cellId} not found.`);
+        return;
+    }
+
+    const explosion = document.createElement('div');
+    explosion.className = 'explosion';
+    explosion.style.left = cell.offsetLeft + 'px';
+    explosion.style.top = cell.offsetTop + 'px';
+
+    boardElement.appendChild(explosion);
+
+    setTimeout(() => {
+        explosion.remove();
+    }, 500);
+}
+
+
+
 const computerCells = document.querySelectorAll('#computerBoard .cell');
 computerCells.forEach(cell => {
     cell.addEventListener('click', function() {
@@ -245,6 +274,7 @@ computerCells.forEach(cell => {
             if (hitCounter === totalHits) {
                 displayMessage('BETTER LUCK NEXT TIME, ALL SHIPS SUNK!');
             }
+            showExplosion(row, col, 'computerBoard');
         } else {
             this.classList.add('miss');
             displayMessage('Miss!');
@@ -377,8 +407,12 @@ function resetGame() {
     })
 
     const playerShipsContainer = document.getElementById('shipContainer');
+
     const playerShips = document.querySelectorAll('.ship');
     playerShips.forEach(ship => {
+        ship.classList.remove('horizontal');
+        ship.classList.add('vertical');
+        ship.dataset.direction = 'vertical';
         playerShipsContainer.appendChild(ship);
     });
 }
