@@ -28,14 +28,14 @@
     color: dodgerblue;
     grid-column: 2;
     grid-row: 2;
-    margin: 0 0 0 20%;
+    margin: 3% 0 0 18%;
 }
 .cboard {
     font-family: 'Roboto Condensed', sans-serif;
     color: orange;
     grid-column: 2;
     grid-row: 2;
-    margin: 0 0 0 70%;
+    margin: 3% 0 0 67%;
 }
 .title {
     display: flex;

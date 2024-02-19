@@ -225,7 +225,7 @@ function displayMessage(message) {
     messageElement.classList.add('active');
     setTimeout(() => {
         messageElement.style.display = 'none';
-    }, 1000);
+    }, 2000);
 }
 
 // Hit and miss logic
@@ -349,19 +349,6 @@ function generateRandomCoordinates() {
 
 // Function to reset the game
 function resetGame() {
-    for (let row = 0; row < playerBoard.length; row++) {
-        for (let col = 0; col < playerBoard[row].length; col++) {
-            playerBoard[row][col] = null;
-            computerBoard[row][col] = null;
-        }
-    }
-
-        // Event listener for resetting the game
-document.addEventListener('click', function() {
-    const resetButton = document.getElementById('playGame'); 
-    playGame.addEventListener('click', resetGame);
-});
-
     // Reset variables
     selectedShip = null;
     shipDirection = 'vertical';
@@ -371,25 +358,37 @@ document.addEventListener('click', function() {
     shipBeingPlaced = null;
     hitCounter = 0;
 
-    const playerCells = document.querySelectorAll('#playerBoard .cell');
-    playerCells.forEach(cell => {
-        cell.innerHTML = '';
-    });
+    // Reset the player and computer boards
+    for (let row = 0; row < playerBoard.length; row++) {
+        for (let col = 0; col < playerBoard[row].length; col++) {
+            playerBoard[row][col] = null;
+            computerBoard[row][col] = null;
+        }
+    }
 
     const computerCells = document.querySelectorAll('#computerBoard .cell');
     computerCells.forEach(cell => {
         cell.classList.remove('hit', 'miss');
     });
 
+    const playerCells = document.querySelectorAll('#playerBoard .cell');
+    playerCells.forEach(cell => {
+        cell.classList.remove('hit', 'miss');
+    })
+
     const playerShipsContainer = document.getElementById('shipContainer');
     const playerShips = document.querySelectorAll('.ship');
     playerShips.forEach(ship => {
         playerShipsContainer.appendChild(ship);
     });
-
-
-
-    // Render game boards
-    renderGameBoard('playerBoard', playerBoard);
-    renderGameBoard('computerBoard', computerBoard);
 }
+
+// Event listener for resetting the game
+document.addEventListener('DOMContentLoaded', function() {
+    const resetButton = document.getElementById('playGame');
+    resetButton.addEventListener('click', resetGame);
+});
+  
+
+
+  
